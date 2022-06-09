@@ -1,15 +1,8 @@
 import {promises as fs} from 'fs';
 import TelegramBot from 'node-telegram-bot-api';
-import {random} from 'lodash';
+import yaml from 'yaml';
 
-// replace the value below with the Telegram token you receive from @BotFather
-const token = process.env['TELEGRAM_TOKEN']!;
-
-if (token === undefined) {
-  throw new Error('TELEGRAM_TOKEN must be set');
-}
-
-const groupId = '-1001375311913';
+import {randItem} from './utils';
 
 type FacebookMessage = {
   sender_name: string;
@@ -17,6 +10,13 @@ type FacebookMessage = {
   content?: string;
   type: 'Generic' | 'Share' | 'Call' | 'Subscribe' | 'Unsubscribe';
   is_unsent: boolean;
+};
+
+type Config = {
+  chatId: string;
+  minMessageLength: number;
+  greetings: string[];
+  intros: string[];
 };
 
 const files = [
@@ -29,31 +29,16 @@ const files = [
 
 const minMessageLength = 30;
 
-const greeters = [
-  'Yo',
-  'Yo guys',
-  'Hey guys,',
-  'Hey everyone,',
-  'Omg',
-  'Guys,',
-  'Wait what.',
-  'LOL',
-];
-
-const intros = [
-  'Remember when [user] said:',
-  'Remember that time when [user] said:',
-  'I randomly stumbled on this thing that [user] said:',
-  'Still can’t believe that [user] said:',
-  'I still haven’t gotten over that time that [user] said:',
-  'Not to keep dwelling on it, but I never forgot that [user] said:',
-];
-
-function randItem<V>(data: V[]) {
-  return data[random(0, data.length - 1)];
-}
-
 async function main() {
+  const token = process.env['TELEGRAM_TOKEN'];
+
+  if (token === undefined) {
+    throw new Error('TELEGRAM_TOKEN must be set');
+  }
+
+  const config = yaml.parse(await fs.readFile('config.yml', 'utf8')) as Config;
+  const {chatId} = config;
+
   const bot = new TelegramBot(token, {polling: true});
 
   const messageData = await Promise.all(files.map(n => fs.readFile(n, 'utf8')));
@@ -72,14 +57,14 @@ async function main() {
 
   const msg = randItem(messagesWithContent);
 
-  const greet = randItem(greeters);
-  const intro = randItem(intros).replace('[user]', msg.sender_name.split(' ')[0]);
+  const greet = randItem(config.greetings);
+  const intro = randItem(config.intros).replace('[user]', msg.sender_name.split(' ')[0]);
 
-  bot.sendMessage(groupId, greet);
+  bot.sendMessage(chatId, greet);
   await new Promise(r => setTimeout(r, 3000));
-  bot.sendMessage(groupId, intro);
+  bot.sendMessage(chatId, intro);
   await new Promise(r => setTimeout(r, 1000));
-  bot.sendMessage(groupId, `"${msg.content}"`);
+  bot.sendMessage(chatId, `"${msg.content}"`);
 }
 
 main();

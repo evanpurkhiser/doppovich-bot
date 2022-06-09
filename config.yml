@@ -1,0 +1,23 @@
+# The ID of the chat to post to. The bot must be in the chat
+chatId: '-1001375311913'
+
+# The minimum length of message to consider posting
+minMessageLength: 30
+
+greetings:
+  - Yo
+  - Yo guys
+  - Hey guys,
+  - Hey everyone,
+  - Omg
+  - Guys,
+  - Wait what.
+  - LOL
+
+intros:
+  - Remember when [user] said
+  - Remember that time when [user] said
+  - I randomly stumbled on this thing that [user] said
+  - Still can’t believe that [user] said
+  - I still haven’t gotten over that time that [user] said
+  - Not to keep dwelling on it, but I never forgot that [user] said
