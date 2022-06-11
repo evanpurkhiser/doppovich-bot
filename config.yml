@@ -26,6 +26,8 @@ greetings:
   - Aw shit
   - Bruh
   - Damn
+  - Waddup everyone
+  - Wtf
 
 # The message following the greeting, just before posting the quote
 intros:
@@ -43,3 +45,39 @@ intros:
   - It really made an impression on me that [user] said
   - We need to talk about how [user] said
   - "[user] wasn't fucking around when he said"
+  - I will never live it down that [user] said
+  - Do you guys remember when [user] said
+  - What the fuck was [user] thinking when he said
+  - It still keeps me up at night that [user] said
+    
+# TIME FRAME ANSWERING:
+# If one of (5?) following messages contains the words "when was",
+# answer randomly one of the following prompts and formats:
+#
+# - He said it back in [Month Name] [YYYY] 
+# - I think it was back in [Month Name] [YYYY]? Anyone else know?
+# - He said it on [MM/DD/YYYY], which is really nuts when you think about it
+# - It was like [x] ["months"/"weeks"/"days"] ago or something. I dunno.
+# - I think it was around [x +/- random num] ["months"/"weeks"/"days"] ago?
+#     - Wait, actually it was on [MM/DD/YYYY] LOL
+
+# CONTEXT REQUEST ANSWERING:
+# If one of (5?) following message contains the word "context",
+# answer randomly one of the following prompts, wait a couple seconds, then
+# paste a 3-6 previous messages, wait another second, then post an outro:
+#
+# - Fuck, let me go back, I just closed it
+# - Gimme a sec
+# - Sure, sec
+# - Lemme check
+# - Dude, google it yourself. LOL JK
+# - You serious? But ok
+
+# CONTEXT REQUEST OUTROS:
+# After broadcasting the 3-6 previous messages, randomly pick an outro:
+# - "Ok, now that I'm reading the rest of it, it wasn't actually that funny"
+# - "Somehow I'm actually MORE confused by this"
+# - Tbh, the context kinda ruins it
+# - Not sure what I expected, tbh
+# - Pretty hilarious, ngl
+# - [nothing]
