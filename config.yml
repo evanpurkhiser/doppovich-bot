@@ -1,9 +1,18 @@
-# The ID of the chat to post to. The bot must be in the chat
+# The database file pathto store state in
+dbPath: ./database.sqlite
+
+# The JSON files that the bot will read old messages from
+messageFiles:
+  facebook: ./facebook_*.json
+
+# The telegram chat ID the bot should be active in
 chatId: '-1001375311913'
 
-# The minimum length of message to consider posting
+# The minimum length a message must be to be considered a candidate to be
+# quoted
 minMessageLength: 30
 
+# The messages the bot will oepn with
 greetings:
   - Yo
   - Yo guys
@@ -18,6 +27,7 @@ greetings:
   - Bruh
   - Damn
 
+# The message following the greeting, just before posting the quote
 intros:
   - Remember when [user] said
   - Remember that time when [user] said
