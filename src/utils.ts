@@ -28,3 +28,11 @@ export async function sleepRange(min: number, max: number) {
   const time = Math.floor(min + Math.random() * (max - min + 1));
   await new Promise(r => setTimeout(r, time));
 }
+
+/**
+ * Escapes text for telegram markdown
+ */
+export function escapeMarkdown(text: string) {
+  // Defined here https://core.telegram.org/bots/api#markdownv2-style
+  return text.replace(/[_*[\]()~`>#+-=|{}.!]/g, match => `\\${match}`);
+}

@@ -3,10 +3,11 @@ dbPath: ./database.sqlite
 
 # The JSON files that the bot will read old messages from
 messageFiles:
-  facebook: ./facebook_*.json
+  facebook: ./data/facebook_*.json
 
 # The telegram chat ID the bot should be active in
-chatId: '-1001375311913'
+#chatId: '-1001375311913'
+chatId: '-1001753130446'
 
 # The minimum length a message must be to be considered a candidate to be
 # quoted
@@ -91,7 +92,7 @@ followups:
       - - 'He said it on [date:M/DD/YYYY], which is really nuts when you think about it'
       - - 'I think it was around [timeAgoWrong] ago?'
         - 'Wait, actually it was on [date:MM/DD/YYYY] LOL'
-        - 'Holy shit wtf, he literally said it right at [date:h:ma] too.. wow'
+        - 'Holy shit wtf, he literally said it right at [date:h:mma] too.. wow'
 
     isPostingResponse:
       - Dude hangon I'm finding it
@@ -119,6 +120,7 @@ followups:
       - Lemme check
       - Dude, google it yourself. LOL JK
       - You serious? But ok
+      - Hangon let me copy and paste it
 
     outros:
       - "Ok, now that I'm reading the rest of it, it wasn't actually that funny"
@@ -126,3 +128,10 @@ followups:
       - Tbh, the context kinda ruins it
       - Not sure what I expected, tbh
       - Pretty hilarious, ngl
+
+    isPostingResponse:
+      - Sec, copy past isn't working
+      - Figuring it out holdon
+
+    alreadyPostedResponse:
+      - Dude I posted the context right here
