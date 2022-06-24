@@ -73,6 +73,11 @@ export type Config = {
    */
   intros: string[];
   /**
+   * Mesasges to post when a sentry error is recorded. [errId] is replaced with
+   * the sentry error
+   */
+  errorMessages: string[];
+  /**
    * Name aliases (ie: Joseph is Joe). A list of multiple names may be used to
    * have Taryn randomly select names
    */

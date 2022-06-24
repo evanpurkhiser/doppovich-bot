@@ -10,11 +10,7 @@ import {Message} from 'src/entity/message';
 import WhenWasFollowup from 'src/followup/whenWas';
 import ContextFollowup from 'src/followup/context';
 import {loadFacebookMessages} from 'src/loaders';
-
-initSentry({
-  dsn: 'https://5833ef4ec765499aa7c06b32a8a8879f@o126623.ingest.sentry.io/6526917',
-  tracesSampleRate: 1.0,
-});
+import {randItem} from 'src/utils';
 
 async function main() {
   const token = process.env['TELEGRAM_TOKEN'];
@@ -25,6 +21,25 @@ async function main() {
 
   const bot = new TelegramBot(token, {polling: true});
   const config = yaml.parse(await fs.readFile('config.yml', 'utf8')) as Config;
+
+  initSentry({
+    dsn: 'https://5833ef4ec765499aa7c06b32a8a8879f@o126623.ingest.sentry.io/6526917',
+    tracesSampleRate: 1.0,
+
+    // Have Taryn post if we end up reporting something to Sentry
+    beforeSend: event => {
+      const msg = randItem(config.errorMessages).replace(
+        '[errId]',
+        event.event_id ?? '[unknown event id]'
+      );
+      try {
+        bot.sendMessage(config.chatId, msg);
+      } catch {
+        // noop
+      }
+      return event;
+    },
+  });
 
   const db = new DataSource({
     type: 'sqlite',
@@ -45,19 +60,15 @@ async function main() {
   };
 
   // TODO: Put this into a cron type loop thing
-
   sendNewQuote(ctx);
 
-  const safeHandler = (handler: (message: TelegramBot.Message) => void) =>
-    function (message: TelegramBot.Message) {
+  const safeHandler = (handler: (message: TelegramBot.Message) => Promise<any>) =>
+    async function (message: TelegramBot.Message) {
       try {
-        return handler(message);
+        await handler(message);
       } catch (error) {
-        const errId = captureException(error);
-        bot.sendMessage(
-          config.chatId,
-          `Shit, Something fucked up @evanpurkhiser. Here's the Sentry error: ${errId}`
-        );
+        console.error(error);
+        captureException(error);
       }
     };
 

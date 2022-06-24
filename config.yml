@@ -54,6 +54,12 @@ intros:
   - What the fuck was [user] thinking when he said
   - It still keeps me up at night that [user] said
 
+# If taryn has a problem he'll try and send it to sentry
+errorMessages:
+  - Shit something fucked up @evanpurkhiser. Here's the sentry error [errId].
+  - Oh fuck. I dunno what happened but I put somethin in Sentry for it here [errId].
+  - Urgh.. @evanpurkhiser can you check Sentry? [errId]
+
 followups:
   # whenWas is a follow up where Taryn will tell us about WHEN the message was
   whenWas:
