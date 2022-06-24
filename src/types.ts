@@ -1,6 +1,35 @@
 import TelegramBot from 'node-telegram-bot-api';
 import {DataSource} from 'typeorm';
 
+type FollowUpCommon = {
+  /**
+   * How long until Taryn no longer will respond to message matches. In seconds
+   */
+  timeLimit: number;
+  /**
+   * Regex (in the format `/regex/`) or exact string matches of what
+   */
+  matches: string[];
+};
+
+type FollowUpWhenWas = FollowUpCommon & {
+  /**
+   * The list of possible response lists.
+   */
+  responses: string[][];
+};
+
+type FollowUpContext = FollowUpCommon & {
+  /**
+   * A list of possible intro messages to send before pasting the context
+   */
+  intros: string[];
+  /**
+   * A list of possible outro messages to send after pasting the context
+   */
+  outros: string[];
+};
+
 export type Config = {
   /**
    * The database file pathto store state in

@@ -53,35 +53,52 @@ intros:
   - Do you guys remember when [user] said
   - What the fuck was [user] thinking when he said
   - It still keeps me up at night that [user] said
-    
-# TIME FRAME ANSWERING:
-# If one of (5?) following messages contains the words "when was",
-# answer randomly one of the following prompts and formats:
-#
-# - He said it back in [Month Name] [YYYY] 
-# - I think it was back in [Month Name] [YYYY]? Anyone else know?
-# - He said it on [MM/DD/YYYY], which is really nuts when you think about it
-# - It was like [x] ["months"/"weeks"/"days"] ago or something. I dunno.
-# - I think it was around [x +/- random num] ["months"/"weeks"/"days"] ago?
-#     - Wait, actually it was on [MM/DD/YYYY] LOL
 
-# CONTEXT REQUEST ANSWERING:
-# If one of (5?) following message contains the word "context",
-# answer randomly one of the following prompts, wait a couple seconds, then
-# paste a 3-6 previous messages, wait another second, then post an outro:
-#
-# - Fuck, let me go back, I just closed it
-# - Gimme a sec
-# - Sure, sec
-# - Lemme check
-# - Dude, google it yourself. LOL JK
-# - You serious? But ok
+followUps:
+  # whenWas is a follow up where Taryn will tell us about WHEN the message was
+  whenWas:
+    # How long until Taryn no longer will respond to message matches. Currently
+    # set for 30 minutes in seconds
+    timeLimit: 1800
 
-# CONTEXT REQUEST OUTROS:
-# After broadcasting the 3-6 previous messages, randomly pick an outro:
-# - "Ok, now that I'm reading the rest of it, it wasn't actually that funny"
-# - "Somehow I'm actually MORE confused by this"
-# - Tbh, the context kinda ruins it
-# - Not sure what I expected, tbh
-# - Pretty hilarious, ngl
-# - [nothing]
+    # What text should taryn listen for? can be a regular expression
+    matches:
+      - 'when was'
+
+    # The responses will be randomly picked, and a sequence can be used. There
+    # are a few types of keys which can be used
+    #
+    # - `[date:(format)]` i.e. [date:MMMM YYYY] will produce `October 2021`.
+    # - `[timeAgo]` The '2 years' ago format
+    # - `[timeAgoWrong]` Taryn will be off by some magnitude
+    #
+    responses:
+      - - 'He said it back in [date:MMMM YYYY]'
+      - - 'I think it was back in [date:MMMM YYYY]?'
+        - 'Anyone else know?'
+      - - 'It was like [timeAgo] ago or something. I dunno.'
+        - 'Okay yeah, it was [date:MMMM DD YYYY]'
+      - - 'He said it on [date:MM/DD/YYYY], which is really nuts when you think about it'
+      - - 'I think it was around [timeAgoWrong] ago?'
+        - 'Wait, actually it was on [date:MM/DD/YYYY] LOL'
+
+  # Context follow up asks taryn to provide some context for the messages
+  context:
+    # How long until Taryn no longer will respond to message matches. Currently
+    # set for 30 minutes in seconds
+    timeLimit: 1800
+
+    intros:
+      - Fuck, let me go back, I just closed it
+      - Gimme a sec
+      - Sure, sec
+      - Lemme check
+      - Dude, google it yourself. LOL JK
+      - You serious? But ok
+
+    outros:
+      - "Ok, now that I'm reading the rest of it, it wasn't actually that funny"
+      - "Somehow I'm actually MORE confused by this"
+      - Tbh, the context kinda ruins it
+      - Not sure what I expected, tbh
+      - Pretty hilarious, ngl
