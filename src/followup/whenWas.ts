@@ -7,19 +7,23 @@ import {randItem, textMatches} from 'src/utils';
 
 class WhenWasFollowup {
   #ctx: AppCtx;
+  #isPosting: boolean;
 
   constructor(ctx: AppCtx) {
     this.#ctx = ctx;
+    this.#isPosting = false;
   }
 
   handleMessage = async (message: TelegramBot.Message) => {
+    const {config, messages, bot} = this.#ctx;
+
     if (message.text === undefined) {
       return;
     }
-    const conf = this.#ctx.config.followups.whenWas;
+    const whenWas = config.followups.whenWas;
 
     // Does the message match?
-    if (!textMatches(message.text, conf.matches)) {
+    if (!textMatches(message.text, whenWas.matches)) {
       return;
     }
 
@@ -32,18 +36,38 @@ class WhenWasFollowup {
 
     // Message is to long ago. Ignore it
     const isOld = moment(lastMessage.sentAt)
-      .add(conf.timeLimit, 'seconds')
+      .add(whenWas.timeLimit, 'seconds')
       .isBefore(new Date());
 
     if (isOld) {
       return;
     }
 
-    const responseSet = randItem(conf.responses);
+    // Taryn doesn't like it when you ask twice
+    if (this.#isPosting) {
+      const msg = randItem(whenWas.isPostingResponse);
+      await bot.sendMessage(message.chat.id, msg);
+      return;
+    }
+
+    // Taryn already posted it once
+    if (lastMessage.whenWasMessageId !== null) {
+      const msg = randItem(whenWas.alreadyPostedResponse);
+      await bot.sendMessage(message.chat.id, msg, {
+        reply_to_message_id: lastMessage.whenWasMessageId,
+      });
+      return;
+    }
+
+    const responseSet = randItem(whenWas.responses);
 
     // Find the message that taryn posted
-    const fbMessage = this.#ctx.messages.facebook[lastMessage.messageIdx];
+    const fbMessage = messages.facebook[lastMessage.messageIdx];
     const messageDate = moment(fbMessage.timestamp_ms);
+
+    const sentMessages: TelegramBot.Message[] = [];
+
+    this.#isPosting = true;
 
     for (const response of responseSet) {
       const msg = response
@@ -61,8 +85,13 @@ class WhenWasFollowup {
         });
 
       await new Promise(r => setTimeout(r, 5000));
-      await this.#ctx.bot.sendMessage(message.chat.id, msg);
+      sentMessages.push(await bot.sendMessage(message.chat.id, msg));
     }
+
+    lastMessage.whenWasMessageId = sentMessages[0].message_id;
+    lastMessage.save();
+
+    this.#isPosting = false;
   };
 }
 

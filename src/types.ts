@@ -10,6 +10,14 @@ type FollowUpCommon = {
    * Regex (in the format `/regex/`) or exact string matches of what
    */
   matches: string[];
+  /**
+   * Messages taryn will respond with if he gets miultiple requests
+   */
+  isPostingResponse: string[];
+  /**
+   * Messages taryn will respond with when he gets the same response again
+   */
+  alreadyPostedResponse: string[];
 };
 
 /*

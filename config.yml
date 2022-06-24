@@ -87,6 +87,15 @@ followups:
         - 'Wait, actually it was on [date:MM/DD/YYYY] LOL'
         - 'Holy shit wtf, he literally said it right at [date:h:ma] too.. wow'
 
+    isPostingResponse:
+      - Dude hangon I'm finding it
+      - One sec looking
+
+    alreadyPostedResponse:
+      - I found it here
+      - Dude read up, it's right there
+      - Are you serious? I went back and found it here
+
   # Context follow up asks taryn to provide some context for the messages
   context:
     # How long until Taryn no longer will respond to message matches. Currently
