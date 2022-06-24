@@ -12,6 +12,9 @@ type FollowUpCommon = {
   matches: string[];
 };
 
+/*
+ * The configuration for the 'when was that' follow up
+ */
 type FollowUpWhenWas = FollowUpCommon & {
   /**
    * The list of possible response lists.
@@ -19,6 +22,9 @@ type FollowUpWhenWas = FollowUpCommon & {
   responses: string[][];
 };
 
+/*
+ * The configuration for the 'what is the contxt of that' follow up
+ */
 type FollowUpContext = FollowUpCommon & {
   /**
    * A list of possible intro messages to send before pasting the context
@@ -63,6 +69,13 @@ export type Config = {
    * have Taryn randomly select names
    */
   userAlias: Record<string, string[]>;
+  /**
+   * Follow up configurations
+   */
+  followups: {
+    whenWas: FollowUpWhenWas;
+    context: FollowUpContext;
+  };
 };
 
 export type AppCtx = {

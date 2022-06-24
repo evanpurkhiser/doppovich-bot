@@ -54,7 +54,7 @@ intros:
   - What the fuck was [user] thinking when he said
   - It still keeps me up at night that [user] said
 
-followUps:
+followups:
   # whenWas is a follow up where Taryn will tell us about WHEN the message was
   whenWas:
     # How long until Taryn no longer will respond to message matches. Currently
