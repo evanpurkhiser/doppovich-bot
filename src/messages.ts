@@ -1,4 +1,4 @@
-import {randItem} from 'src/utils';
+import {randItem, sleepRange} from 'src/utils';
 import {AppCtx} from 'src/types';
 import {loadFacebookMessages} from 'src/loaders';
 import {Message} from 'src/entity/message';
@@ -19,9 +19,9 @@ export async function sendNewQuote(ctx: AppCtx) {
   const intro = randItem(intros).replace('[user]', senderName);
 
   await bot.sendMessage(chatId, greet);
-  await new Promise(r => setTimeout(r, 3000));
+  await sleepRange(2000, 3000);
   await bot.sendMessage(chatId, intro);
-  await new Promise(r => setTimeout(r, 1000));
+  await sleepRange(1000, 2000);
   await bot.sendMessage(chatId, `"${msg.content}"`);
 
   const message = Message.create({

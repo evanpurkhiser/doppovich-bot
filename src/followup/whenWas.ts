@@ -3,7 +3,7 @@ import TelegramBot from 'node-telegram-bot-api';
 
 import {Message} from 'src/entity/message';
 import {AppCtx} from 'src/types';
-import {randItem, textMatches} from 'src/utils';
+import {randItem, sleepRange, textMatches} from 'src/utils';
 
 class WhenWasFollowup {
   #ctx: AppCtx;
@@ -84,7 +84,7 @@ class WhenWasFollowup {
           return messageDate.add(addHours, 'hours').fromNow();
         });
 
-      await new Promise(r => setTimeout(r, 5000));
+      await sleepRange(3000, 6000);
       sentMessages.push(await bot.sendMessage(message.chat.id, msg));
     }
 

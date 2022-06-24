@@ -20,3 +20,11 @@ export function textMatches(text: string, matches: string[]) {
       : text.toLowerCase().includes(match.toLowerCase())
   );
 }
+
+/**
+ * Timeout for a value between the min and max
+ */
+export async function sleepRange(min: number, max: number) {
+  const time = Math.floor(min + Math.random() * (max - min + 1));
+  await new Promise(r => setTimeout(r, time));
+}
