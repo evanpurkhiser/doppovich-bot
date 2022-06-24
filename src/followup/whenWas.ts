@@ -20,10 +20,10 @@ class WhenWasFollowup {
     if (message.text === undefined) {
       return;
     }
-    const whenWas = config.followups.whenWas;
+    const whenWasConfig = config.followups.whenWas;
 
     // Does the message match?
-    if (!textMatches(message.text, whenWas.matches)) {
+    if (!textMatches(message.text, whenWasConfig.matches)) {
       return;
     }
 
@@ -36,7 +36,7 @@ class WhenWasFollowup {
 
     // Message is to long ago. Ignore it
     const isOld = moment(lastMessage.sentAt)
-      .add(whenWas.timeLimit, 'seconds')
+      .add(whenWasConfig.timeLimit, 'seconds')
       .isBefore(new Date());
 
     if (isOld) {
@@ -45,21 +45,21 @@ class WhenWasFollowup {
 
     // Taryn doesn't like it when you ask twice
     if (this.#isPosting) {
-      const msg = randItem(whenWas.isPostingResponse);
+      const msg = randItem(whenWasConfig.isPostingResponse);
       await bot.sendMessage(message.chat.id, msg);
       return;
     }
 
     // Taryn already posted it once
     if (lastMessage.whenWasMessageId !== null) {
-      const msg = randItem(whenWas.alreadyPostedResponse);
+      const msg = randItem(whenWasConfig.alreadyPostedResponse);
       await bot.sendMessage(message.chat.id, msg, {
         reply_to_message_id: lastMessage.whenWasMessageId,
       });
       return;
     }
 
-    const responseSet = randItem(whenWas.responses);
+    const responseSet = randItem(whenWasConfig.responses);
 
     // Find the message that taryn posted
     const fbMessage = messages.facebook[lastMessage.messageIdx];
