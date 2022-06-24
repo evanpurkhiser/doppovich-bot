@@ -88,6 +88,10 @@ followUps:
     # set for 30 minutes in seconds
     timeLimit: 1800
 
+    # What text should taryn listen for? can be a regular expression
+    matches:
+      - 'context'
+
     intros:
       - Fuck, let me go back, I just closed it
       - Gimme a sec
