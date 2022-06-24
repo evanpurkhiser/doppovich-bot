@@ -82,6 +82,9 @@ export type AppCtx = {
   config: Config;
   db: DataSource;
   bot: TelegramBot;
+  messages: {
+    facebook: FacebookMessage[];
+  };
 };
 
 export type FacebookMessage = {

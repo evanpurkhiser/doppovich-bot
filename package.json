@@ -8,9 +8,11 @@
     "@types/node-telegram-bot-api": "^0.57.1",
     "fast-glob": "^3.2.11",
     "lodash": "^4.17.21",
+    "moment": "^2.29.3",
     "node-telegram-bot-api": "^0.57.0",
     "sqlite3": "^5.0.8",
     "ts-node": "^10.8.1",
+    "tsconfig-paths": "^4.0.0",
     "typeorm": "^0.3.6",
     "typescript": "^4.7.3",
     "yaml": "^2.1.1"
@@ -18,6 +20,9 @@
   "devDependencies": {
     "@evanpurkhiser/eslint-config": "^0.10.1",
     "eslint": "^8.17.0"
+  },
+  "scripts": {
+    "start": "ts-node -r tsconfig-paths/register ./src/index.ts"
   },
   "volta": {
     "node": "16.14.0",

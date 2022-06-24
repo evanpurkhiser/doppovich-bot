@@ -72,15 +72,20 @@ followups:
     # - `[timeAgo]` The '2 years' ago format
     # - `[timeAgoWrong]` Taryn will be off by some magnitude
     #
+    # Date format tokens can be found here [0]
+    #
+    # [0]: https://momentjs.com/docs/#/parsing/string-format/
+    #
     responses:
       - - 'He said it back in [date:MMMM YYYY]'
       - - 'I think it was back in [date:MMMM YYYY]?'
         - 'Anyone else know?'
       - - 'It was like [timeAgo] ago or something. I dunno.'
-        - 'Okay yeah, it was [date:MMMM DD YYYY]'
-      - - 'He said it on [date:MM/DD/YYYY], which is really nuts when you think about it'
+        - 'Okay yeah, it was [date:MMMM Do YYYY]'
+      - - 'He said it on [date:M/DD/YYYY], which is really nuts when you think about it'
       - - 'I think it was around [timeAgoWrong] ago?'
         - 'Wait, actually it was on [date:MM/DD/YYYY] LOL'
+        - 'Holy shit wtf, he literally said it right at [date:h:ma] too.. wow'
 
   # Context follow up asks taryn to provide some context for the messages
   context:

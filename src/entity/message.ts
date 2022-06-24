@@ -19,4 +19,8 @@ export class Message extends BaseEntity {
 
   @CreateDateColumn()
   sentAt!: Date;
+
+  static findLastMessage() {
+    return this.createQueryBuilder('message').orderBy('message.sentAt', 'DESC').getOne();
+  }
 }

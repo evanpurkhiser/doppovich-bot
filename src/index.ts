@@ -3,9 +3,11 @@ import {promises as fs} from 'fs';
 import TelegramBot from 'node-telegram-bot-api';
 import yaml from 'yaml';
 
-import {Config, AppCtx} from './types';
-import {sendNewQuote} from './messages';
-import {Message} from './entity/message';
+import {Config, AppCtx} from 'src/types';
+import {sendNewQuote} from 'src/messages';
+import {Message} from 'src/entity/message';
+import WhenWasFollowup from 'src/followup/whenWas';
+import {loadFacebookMessages} from './loaders';
 
 async function main() {
   const token = process.env['TELEGRAM_TOKEN'];
@@ -24,15 +26,22 @@ async function main() {
     logging: true,
     synchronize: true,
   });
-  await db.connect();
+  await db.initialize();
 
-  const ctx: AppCtx = {config, bot, db};
+  const ctx: AppCtx = {
+    config,
+    bot,
+    db,
+    messages: {
+      facebook: await loadFacebookMessages(config),
+    },
+  };
+
+  // TODO: Put this into a cron type loop thing
 
   sendNewQuote(ctx);
 
-  bot.onText(/hi taryn/, msg => {
-    bot.sendMessage(msg.chat.id, `Hey there ${msg.from?.first_name}`);
-  });
+  bot.on('message', new WhenWasFollowup(ctx).handleMessage);
 }
 
 main();
