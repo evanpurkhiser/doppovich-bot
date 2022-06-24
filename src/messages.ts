@@ -24,8 +24,11 @@ export async function sendNewQuote(ctx: AppCtx) {
 
   const msg = randItem(messagesWithContent);
 
+  const firstName = msg.sender_name.split(' ')[0];
+  const senderName = randItem(config.userAlias[firstName] ?? [firstName]);
+
   const greet = randItem(greetings);
-  const intro = randItem(intros).replace('[user]', msg.sender_name.split(' ')[0]);
+  const intro = randItem(intros).replace('[user]', senderName);
 
   bot.sendMessage(chatId, greet);
   await new Promise(r => setTimeout(r, 3000));

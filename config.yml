@@ -29,6 +29,10 @@ greetings:
   - Waddup everyone
   - Wtf
 
+# Used for aliasing users
+userAlias:
+  Joseph: [Joe]
+
 # The message following the greeting, just before posting the quote
 intros:
   - Remember when [user] said

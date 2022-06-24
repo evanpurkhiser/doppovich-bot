@@ -29,6 +29,11 @@ export type Config = {
    * The message following the greeting, just before posting the quote
    */
   intros: string[];
+  /**
+   * Name aliases (ie: Joseph is Joe). A list of multiple names may be used to
+   * have Taryn randomly select names
+   */
+  userAlias: Record<string, string[]>;
 };
 
 export type AppCtx = {
