@@ -21,10 +21,10 @@ class ContextFollowup {
       return;
     }
 
-    const configConfig = config.followups.context;
+    const contextConfig = config.followups.context;
 
     // Does the message match?
-    if (!textMatches(message.text, configConfig.matches)) {
+    if (!textMatches(message.text, contextConfig.matches)) {
       return;
     }
 
@@ -37,7 +37,7 @@ class ContextFollowup {
 
     // Message is to long ago. Ignore it
     const isOld = moment(lastMessage.sentAt)
-      .add(configConfig.timeLimit, 'seconds')
+      .add(contextConfig.timeLimit, 'seconds')
       .isBefore(new Date());
 
     if (isOld) {
@@ -46,10 +46,20 @@ class ContextFollowup {
 
     // Taryn doesn't like it when you ask twice
     if (this.#isPosting) {
-      const msg = randItem(configConfig.isPostingResponse);
+      const msg = randItem(contextConfig.isPostingResponse);
       await bot.sendMessage(message.chat.id, msg);
       return;
     }
+
+    if (lastMessage.contextMessageId !== null) {
+      const msg = randItem(contextConfig.alreadyPostedResponse);
+      await bot.sendMessage(message.chat.id, msg, {
+        reply_to_message_id: lastMessage.contextMessageId,
+      });
+      return;
+    }
+
+    this.#isPosting = true;
 
     const messageContext = messages.facebook.slice(
       lastMessage.messageIdx - 3,
@@ -57,7 +67,7 @@ class ContextFollowup {
     );
 
     await sleepRange(1000, 3000);
-    await bot.sendMessage(message.chat.id, randItem(configConfig.intros));
+    await bot.sendMessage(message.chat.id, randItem(contextConfig.intros));
 
     const contextMessage = messageContext
       .map(
@@ -68,10 +78,17 @@ class ContextFollowup {
       .join('\n\n');
 
     await sleepRange(3000, 6000);
-    await bot.sendMessage(message.chat.id, contextMessage, {parse_mode: 'MarkdownV2'});
+    const contextPost = await bot.sendMessage(message.chat.id, contextMessage, {
+      parse_mode: 'MarkdownV2',
+    });
+
+    this.#isPosting = false;
+
+    lastMessage.contextMessageId = contextPost.message_id;
+    lastMessage.save();
 
     await sleepRange(2000, 5000);
-    await bot.sendMessage(message.chat.id, randItem(configConfig.outros));
+    await bot.sendMessage(message.chat.id, randItem(contextConfig.outros));
   };
 }
 

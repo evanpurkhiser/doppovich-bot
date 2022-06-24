@@ -31,6 +31,12 @@ export class Message extends BaseEntity {
   whenWasMessageId: number | null = null;
 
   /**
+   * When Taryn response with context of the message
+   */
+  @Column({type: 'int', nullable: true})
+  contextMessageId: number | null = null;
+
+  /**
    * When did taryn send this message
    */
   @CreateDateColumn()
