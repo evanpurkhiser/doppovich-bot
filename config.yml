@@ -46,7 +46,7 @@ intros:
   - It really was crazy AF when [user] said
   - I gotta say, I never moved past it when [user] said
   - It has me in stitches when [user] said
-  - "I'm here scratching my head that [user] said"
+  - I'm here scratching my head that [user] said
   - Gotta be honest, it creeped me the fuck out when [user] said
   - It really made an impression on me that [user] said
   - We need to talk about how [user] said
@@ -71,7 +71,7 @@ followups:
 
     # What text should taryn listen for? can be a regular expression
     matches:
-      - 'when was'
+      - when was
 
     # The responses will be randomly picked, and a sequence can be used. There
     # are a few types of keys which can be used
@@ -85,15 +85,15 @@ followups:
     # [0]: https://momentjs.com/docs/#/parsing/string-format/
     #
     responses:
-      - - 'He said it back in [date:MMMM YYYY]'
-      - - 'I think it was back in [date:MMMM YYYY]?'
-        - 'Anyone else know?'
-      - - 'It was like [timeAgo] ago or something. I dunno.'
-        - 'Okay yeah, it was [date:MMMM Do YYYY]'
-      - - 'He said it on [date:M/DD/YYYY], which is really nuts when you think about it'
-      - - 'I think it was around [timeAgoWrong] ago?'
-        - 'Wait, actually it was on [date:MM/DD/YYYY] LOL'
-        - 'Holy shit wtf, he literally said it right at [date:h:mma] too.. wow'
+      - - He said it back in [date:MMMM YYYY]
+      - - I think it was back in [date:MMMM YYYY]?
+        - Anyone else know?
+      - - It was like [timeAgo] ago or something. I dunno.
+        - Okay yeah, it was [date:MMMM Do YYYY]
+      - - He said it on [date:M/DD/YYYY], which is really nuts when you think about it
+      - - I think it was around [timeAgoWrong] ago?
+        - Wait, actually it was on [date:MM/DD/YYYY] LOL
+        - Holy shit wtf, he literally said it right at [date:h:mma] too.. wow
 
     isPostingResponse:
       - Dude hangon I'm finding it
@@ -112,7 +112,7 @@ followups:
 
     # What text should taryn listen for? can be a regular expression
     matches:
-      - 'context'
+      - context
 
     intros:
       - Fuck, let me go back, I just closed it
