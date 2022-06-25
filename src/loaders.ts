@@ -14,7 +14,9 @@ type TelegramMessage = {
   type: 'message' | 'service';
   date_unixtime: string;
   from: string;
-  text: string | Array<string | {text: string}>;
+  text:
+    | string
+    | Array<string | {type: 'link' | 'mention' | 'mention_name'; text: string}>;
 };
 
 /**
@@ -65,6 +67,16 @@ export async function loadTelegramMessages(config: Config) {
   const messagesWithContent = allMessages
     .filter(msg => msg.type === 'message')
     .filter(msg => msg.text !== '')
+    .filter(
+      msg =>
+        // Filter out text that is just a single text object (like a link or a
+        // user mention)
+        !(
+          typeof msg.text !== 'string' &&
+          msg.text.length === 1 &&
+          typeof msg.text[0] !== 'string'
+        )
+    )
     .filter(msg => (msg.text?.length ?? 0) > config.minMessageLength);
 
   const messages = messagesWithContent.map(msg => {
