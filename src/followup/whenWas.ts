@@ -50,6 +50,17 @@ class WhenWasFollowup {
       return;
     }
 
+    // Find the message that taryn posted
+    const fbMessage = messages[lastMessage.messageIdx];
+    const messageDate = moment(fbMessage.timestampMs);
+
+    if (message.text.includes('exactly')) {
+      await sleepRange(1000, 2000);
+      const msg = `Uh, ${messageDate.format('MMMM Do YYYY, h:mma')}`;
+      await bot.sendMessage(message.chat.id, msg);
+      return;
+    }
+
     // Taryn already posted it once
     if (lastMessage.whenWasMessageId !== null) {
       const msg = randItem(whenWasConfig.alreadyPostedResponse);
@@ -60,10 +71,6 @@ class WhenWasFollowup {
     }
 
     const responseSet = randItem(whenWasConfig.responses);
-
-    // Find the message that taryn posted
-    const fbMessage = messages[lastMessage.messageIdx];
-    const messageDate = moment(fbMessage.timestampMs);
 
     const sentMessages: TelegramBot.Message[] = [];
 
