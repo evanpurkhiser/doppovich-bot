@@ -1,5 +1,5 @@
 # The database file pathto store state in
-dbPath: ./database.sqlite
+dbPath: ./db/database.sqlite
 
 # The JSON files that the bot will read old messages from
 messageFiles:
