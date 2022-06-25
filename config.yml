@@ -10,6 +10,21 @@ messageFiles:
 #chatId: '-1001375311913'
 chatId: '-1001753130446'
 
+# You can just say hi to taryn and he'll say hi back
+hello:
+  triggers:
+    - hey
+    - dude
+    - yo
+    - hi
+    - hello
+  responses:
+    - Yo
+    - What's up
+    - hey dude
+    - hey, one sec on the phone with the gf
+    - heyyyyyyy
+
 # The minimum length a message must be to be considered a candidate to be
 # quoted
 minMessageLength: 30

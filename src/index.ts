@@ -10,7 +10,7 @@ import {Message} from 'src/entity/message';
 import WhenWasFollowup from 'src/followup/whenWas';
 import ContextFollowup from 'src/followup/context';
 import {loadFacebookMessages, loadTelegramMessages} from 'src/loaders';
-import {randItem} from 'src/utils';
+import {randItem, sleepRange} from 'src/utils';
 
 async function main() {
   const token = process.env['TELEGRAM_TOKEN'];
@@ -48,10 +48,13 @@ async function main() {
     logging: true,
     synchronize: true,
   });
-  await db.initialize();
 
-  const facebookMessages = await loadFacebookMessages(config);
-  const telegramMessages = await loadTelegramMessages(config);
+  const [_, me, facebookMessages, telegramMessages] = await Promise.all([
+    db.initialize(),
+    bot.getMe(),
+    loadFacebookMessages(config),
+    loadTelegramMessages(config),
+  ]);
 
   const ctx: AppCtx = {
     config,
@@ -59,9 +62,6 @@ async function main() {
     db,
     messages: [...facebookMessages, ...telegramMessages],
   };
-
-  // TODO: Put this into a cron type loop thing
-  sendNewQuote(ctx);
 
   const safeHandler = (handler: (message: TelegramBot.Message) => Promise<any>) =>
     async function (message: TelegramBot.Message) {
@@ -72,6 +72,19 @@ async function main() {
         captureException(error);
       }
     };
+
+  console.log(`Bot started. Username is @${me.username}`);
+
+  // TODO: Put this into a cron type loop thing
+  sendNewQuote(ctx);
+
+  // Say hi to taryn
+  bot.onText(new RegExp(`@${me.username}`), async msg => {
+    if (config.hello.triggers.some(t => msg.text?.toLowerCase().includes(t))) {
+      await sleepRange(500, 2000);
+      bot.sendMessage(msg.chat.id, randItem(config.hello.responses));
+    }
+  });
 
   bot.on('message', safeHandler(new WhenWasFollowup(ctx).handleMessage));
   bot.on('message', safeHandler(new ContextFollowup(ctx).handleMessage));

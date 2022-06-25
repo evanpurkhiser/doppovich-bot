@@ -70,6 +70,13 @@ export type Config = {
    */
   opening: string[];
   /**
+   * Just saying hi to taryn
+   */
+  hello: {
+    triggers: string[];
+    responses: string[];
+  };
+  /**
    * The message following the greeting, just before posting the quote
    */
   intros: string[];
