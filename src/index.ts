@@ -9,7 +9,7 @@ import {sendNewQuote} from 'src/messages';
 import {Message} from 'src/entity/message';
 import WhenWasFollowup from 'src/followup/whenWas';
 import ContextFollowup from 'src/followup/context';
-import {loadFacebookMessages} from 'src/loaders';
+import {loadFacebookMessages, loadTelegramMessages} from 'src/loaders';
 import {randItem} from 'src/utils';
 
 async function main() {
@@ -50,13 +50,14 @@ async function main() {
   });
   await db.initialize();
 
+  const facebookMessages = await loadFacebookMessages(config);
+  const telegramMessages = await loadTelegramMessages(config);
+
   const ctx: AppCtx = {
     config,
     bot,
     db,
-    messages: {
-      facebook: await loadFacebookMessages(config),
-    },
+    messages: [...facebookMessages, ...telegramMessages],
   };
 
   // TODO: Put this into a cron type loop thing

@@ -61,19 +61,18 @@ class ContextFollowup {
 
     this.#isPosting = true;
 
-    const messageContext = messages.facebook.slice(
-      lastMessage.messageIdx - 3,
-      lastMessage.messageIdx + 2
-    );
+    const messageContext = messages
+      .slice(lastMessage.messageIdx - 1, lastMessage.messageIdx + 4)
+      .reverse();
 
     await sleepRange(1000, 3000);
     await bot.sendMessage(message.chat.id, randItem(contextConfig.intros));
 
     const contextMessage = messageContext
       .map(
-        ({sender_name, timestamp_ms, content}) =>
-          `*${sender_name}* ${moment(timestamp_ms).format('h:mma')}\n` +
-          escapeMarkdown(content ?? '')
+        ({senderName, timestampMs, text}) =>
+          `*${senderName}* ${moment(timestampMs).format('h:mma')}\n` +
+          escapeMarkdown(text)
       )
       .join('\n\n');
 

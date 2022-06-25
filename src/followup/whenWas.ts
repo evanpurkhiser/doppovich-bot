@@ -62,8 +62,8 @@ class WhenWasFollowup {
     const responseSet = randItem(whenWasConfig.responses);
 
     // Find the message that taryn posted
-    const fbMessage = messages.facebook[lastMessage.messageIdx];
-    const messageDate = moment(fbMessage.timestamp_ms);
+    const fbMessage = messages[lastMessage.messageIdx];
+    const messageDate = moment(fbMessage.timestampMs);
 
     const sentMessages: TelegramBot.Message[] = [];
 

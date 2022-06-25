@@ -53,7 +53,8 @@ export type Config = {
    * The JSON files that the bot will read old messages from
    */
   messageFiles: {
-    facebook: string[];
+    facebook: string | string[];
+    telegram: string | string[];
   };
   /**
    * The telegram chat ID the bot should be active in
@@ -91,19 +92,15 @@ export type Config = {
   };
 };
 
+export type GenericMessage = {
+  senderName: string;
+  timestampMs: number;
+  text: string;
+};
+
 export type AppCtx = {
   config: Config;
   db: DataSource;
   bot: TelegramBot;
-  messages: {
-    facebook: FacebookMessage[];
-  };
-};
-
-export type FacebookMessage = {
-  sender_name: string;
-  timestamp_ms: number;
-  content?: string;
-  type: 'Generic' | 'Share' | 'Call' | 'Subscribe' | 'Unsubscribe';
-  is_unsent: boolean;
+  messages: GenericMessage[];
 };
