@@ -68,7 +68,7 @@ export type Config = {
   /**
    * The messages the bot will oepn with
    */
-  greetings: string[];
+  opening: string[];
   /**
    * The message following the greeting, just before posting the quote
    */

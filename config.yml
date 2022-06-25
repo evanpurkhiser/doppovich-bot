@@ -15,7 +15,7 @@ chatId: '-1001753130446'
 minMessageLength: 30
 
 # The messages the bot will oepn with
-greetings:
+opening:
   - Yo
   - Yo guys
   - Hey guys
