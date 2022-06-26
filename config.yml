@@ -1,15 +1,28 @@
 # The database file pathto store state in
 dbPath: ./db/database.sqlite
 
-# The JSON files that the bot will read old messages from
-messageFiles:
-  facebook: ./data/facebook*.json
-  telegram: ./data/telegram*.json
+# Chats Taryn has context for
+chats:
+  - id: -1001375311913
+    name: Jaden
+    messageFiles:
+      facebook: ./data/jaden/facebook*.json
+      telegram: ./data/jaden/telegram*.json
 
-# The telegram chat ID the bot should be active in
-#chatId: -1001375311913 # Jaden
-#chatId: -1001638065636 # Pizza + Poker
-chatId: -1001753130446 # Development
+  - id: -1001638065636
+    name: Pizza & Poker
+    messageFiles:
+      telegram: ./data/pizzapoker/telegram*.json
+
+  - id: -1001753130446
+    name: Development
+    messageFiles:
+      facebook: ./data/**/facebook*.json
+      telegram: ./data/**/telegram*.json
+
+# The minimum length a message must be to be considered a candidate to be
+# quoted
+minMessageLength: 30
 
 # You can just say hi to taryn and he'll say hi back
 hello:
@@ -25,10 +38,6 @@ hello:
     - hey dude
     - hey, one sec on the phone with the gf
     - heyyyyyyy
-
-# The minimum length a message must be to be considered a candidate to be
-# quoted
-minMessageLength: 30
 
 # The messages the bot will oepn with
 opening:
@@ -74,6 +83,7 @@ intros:
   - It still keeps me up at night that [user] said
 
 # If taryn has a problem he'll try and send it to sentry
+errorChatId: -1001753130446
 errorMessages:
   - Shit something fucked up @evanpurkhiser. Here's the sentry error [errId].
   - Oh fuck. I dunno what happened but I put somethin in Sentry for it here [errId].

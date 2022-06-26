@@ -44,22 +44,36 @@ type FollowUpContext = FollowUpCommon & {
   outros: string[];
 };
 
+/**
+ * Configuration object per chat
+ */
+export type ChatConfig = {
+  /**
+   * The telegram chat ID for this configurationh
+   */
+  id: TelegramBot.ChatId;
+  /**
+   * The name of the chat
+   */
+  name: string;
+  /**
+   * The JSON files that the bot will read old messages from
+   */
+  messageFiles: {
+    facebook?: string | string[];
+    telegram?: string | string[];
+  };
+};
+
 export type Config = {
   /**
    * The database file pathto store state in
    */
   dbPath: string;
   /**
-   * The JSON files that the bot will read old messages from
+   * Configuration per chat
    */
-  messageFiles: {
-    facebook: string | string[];
-    telegram: string | string[];
-  };
-  /**
-   * The telegram chat ID the bot should be active in
-   */
-  chatId: number;
+  chats: ChatConfig[];
   /**
    * The minimum length a message must be to be considered a candidate to be
    * quoted
@@ -80,6 +94,10 @@ export type Config = {
    * The message following the greeting, just before posting the quote
    */
   intros: string[];
+  /**
+   * The chat ID Taryn will post sentry errors to
+   */
+  errorChatId: number;
   /**
    * Mesasges to post when a sentry error is recorded. [errId] is replaced with
    * the sentry error
@@ -109,5 +127,5 @@ export type AppCtx = {
   config: Config;
   db: DataSource;
   bot: TelegramBot;
-  messages: GenericMessage[];
+  messages: Record<TelegramBot.ChatId, GenericMessage[]>;
 };

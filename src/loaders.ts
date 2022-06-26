@@ -1,6 +1,6 @@
 import {promises as fs} from 'fs';
 import glob from 'fast-glob';
-import {Config, GenericMessage} from './types';
+import {ChatConfig, Config, GenericMessage} from './types';
 
 type FacebookMessage = {
   sender_name: string;
@@ -22,15 +22,19 @@ type TelegramMessage = {
 /**
  * Loads facebook messages
  */
-export async function loadFacebookMessages(config: Config) {
-  const files = await glob(config.messageFiles.facebook);
+export async function loadFacebookMessages(config: Config, chat: ChatConfig) {
+  if (chat.messageFiles.facebook === undefined) {
+    return [];
+  }
+
+  const files = await glob(chat.messageFiles.facebook);
 
   const messageData = await Promise.all(files.map(n => fs.readFile(n, 'utf-8')));
   const allMessages = messageData
     .map(data => JSON.parse(data).messages)
     .flat() as FacebookMessage[];
 
-  console.log('Facebook Messages loaded:', allMessages.length);
+  console.log(`${chat.name}: Facebook Messages loaded:`, allMessages.length);
 
   const messagesWithContent = allMessages
     .filter(msg => msg.type === 'Generic')
@@ -46,7 +50,7 @@ export async function loadFacebookMessages(config: Config) {
     return genericMessage;
   });
 
-  console.log('Facebook messages with content:', messages.length);
+  console.log(`${chat.name}: Facebook Messages with content:`, messages.length);
 
   return messages;
 }
@@ -54,15 +58,19 @@ export async function loadFacebookMessages(config: Config) {
 /**
  * Loads telegram messages
  */
-export async function loadTelegramMessages(config: Config) {
-  const files = await glob(config.messageFiles.telegram);
+export async function loadTelegramMessages(config: Config, chat: ChatConfig) {
+  if (chat.messageFiles.telegram === undefined) {
+    return [];
+  }
+
+  const files = await glob(chat.messageFiles.telegram);
 
   const messageData = await Promise.all(files.map(n => fs.readFile(n, 'utf8')));
   const allMessages = messageData
     .map(data => JSON.parse(data).messages)
     .flat() as TelegramMessage[];
 
-  console.log('TelegramMessage Messages loaded:', allMessages.length);
+  console.log(`${chat.name}: Telegram Messages loaded:`, allMessages.length);
 
   const messagesWithContent = allMessages
     .filter(msg => msg.type === 'message')
@@ -91,7 +99,7 @@ export async function loadTelegramMessages(config: Config) {
     return genericMessage;
   });
 
-  console.log('telegram messages with content:', messages.length);
+  console.log(`${chat.name}: Telegram Messages with content:`, messages.length);
 
   return messages;
 }

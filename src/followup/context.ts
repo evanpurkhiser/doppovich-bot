@@ -61,7 +61,7 @@ class ContextFollowup {
 
     this.#isPosting = true;
 
-    const messageContext = messages
+    const messageContext = messages[message.chat.id]
       .slice(lastMessage.messageIdx - 1, lastMessage.messageIdx + 4)
       .reverse();
 

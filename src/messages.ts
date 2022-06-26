@@ -9,7 +9,7 @@ export async function sendNewQuote(ctx: AppCtx, chatId: number) {
   const {config, bot, messages} = ctx;
   const {opening, intros} = config;
 
-  const msg = randItem(messages);
+  const msg = randItem(messages[chatId]);
 
   const firstName = msg.senderName.split(' ')[0];
   const senderName = randItem(config.userAlias[msg.senderName] ?? [firstName]);
@@ -25,7 +25,7 @@ export async function sendNewQuote(ctx: AppCtx, chatId: number) {
 
   const message = Message.create({
     chatId,
-    messageIdx: messages.indexOf(msg),
+    messageIdx: messages[chatId].indexOf(msg),
   });
   await message.save();
 }

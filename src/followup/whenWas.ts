@@ -51,8 +51,8 @@ class WhenWasFollowup {
     }
 
     // Find the message that taryn posted
-    const fbMessage = messages[lastMessage.messageIdx];
-    const messageDate = moment(fbMessage.timestampMs);
+    const messageObj = messages[message.chat.id][lastMessage.messageIdx];
+    const messageDate = moment(messageObj.timestampMs);
 
     if (message.text.includes('exactly')) {
       await sleepRange(1000, 2000);

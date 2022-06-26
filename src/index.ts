@@ -4,7 +4,7 @@ import TelegramBot from 'node-telegram-bot-api';
 import yaml from 'yaml';
 import {init as initSentry, captureException} from '@sentry/node';
 
-import {Config, AppCtx} from 'src/types';
+import {Config, AppCtx, GenericMessage} from 'src/types';
 import {sendNewQuote} from 'src/messages';
 import {Message} from 'src/entity/message';
 import WhenWasFollowup from 'src/followup/whenWas';
@@ -33,7 +33,7 @@ async function main() {
         event.event_id ?? '[unknown event id]'
       );
       try {
-        bot.sendMessage(config.chatId, msg);
+        bot.sendMessage(config.errorChatId, msg);
       } catch {
         // noop
       }
@@ -49,18 +49,22 @@ async function main() {
     synchronize: true,
   });
 
-  const [_, me, facebookMessages, telegramMessages] = await Promise.all([
-    db.initialize(),
-    bot.getMe(),
-    loadFacebookMessages(config),
-    loadTelegramMessages(config),
-  ]);
+  const [_, me] = await Promise.all([db.initialize(), bot.getMe()]);
+
+  const messages: Record<TelegramBot.ChatId, GenericMessage[]> = {};
+
+  for (const chat of config.chats) {
+    const facebookMessages = await loadFacebookMessages(config, chat);
+    const telegramMessages = await loadTelegramMessages(config, chat);
+
+    messages[chat.id] = [...facebookMessages, ...telegramMessages];
+  }
 
   const ctx: AppCtx = {
     config,
     bot,
     db,
-    messages: [...facebookMessages, ...telegramMessages],
+    messages,
   };
 
   const safeHandler = (handler: (message: TelegramBot.Message) => Promise<any>) =>
@@ -75,12 +79,19 @@ async function main() {
 
   console.log(`Bot started. Username is @${me.username}`);
 
-  // TODO: Put this into a cron type loop thing
-  sendNewQuote(ctx, config.chatId);
+  bot.onText(new RegExp(`^@${me.username}$`), async msg => {
+    sendNewQuote(ctx, msg.chat.id);
+  });
 
   // Say hi to taryn
   bot.onText(new RegExp(`@${me.username}`), async msg => {
-    if (config.hello.triggers.some(t => msg.text?.toLowerCase().includes(t))) {
+    console.log('Message in chat id', msg.chat.id);
+
+    const includesTriggerWord = config.hello.triggers.some(t =>
+      msg.text?.toLowerCase().match(new RegExp(`\\b${t}\\b`))
+    );
+
+    if (includesTriggerWord) {
       await sleepRange(500, 2000);
       bot.sendMessage(msg.chat.id, randItem(config.hello.responses));
     }
