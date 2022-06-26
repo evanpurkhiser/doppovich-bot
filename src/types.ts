@@ -59,7 +59,7 @@ export type Config = {
   /**
    * The telegram chat ID the bot should be active in
    */
-  chatId: string;
+  chatId: number;
   /**
    * The minimum length a message must be to be considered a candidate to be
    * quoted

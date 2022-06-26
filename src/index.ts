@@ -76,7 +76,7 @@ async function main() {
   console.log(`Bot started. Username is @${me.username}`);
 
   // TODO: Put this into a cron type loop thing
-  sendNewQuote(ctx);
+  sendNewQuote(ctx, config.chatId);
 
   // Say hi to taryn
   bot.onText(new RegExp(`@${me.username}`), async msg => {

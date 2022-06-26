@@ -12,10 +12,10 @@ export class Message extends BaseEntity {
   id!: number;
 
   /**
-   * The source of the message
+   * What chat did taryn post the message to?
    */
   @Column()
-  messageType!: 'facebook';
+  chatId!: number;
 
   /**
    * The message index of the message that was posted
@@ -42,7 +42,10 @@ export class Message extends BaseEntity {
   @CreateDateColumn()
   sentAt!: Date;
 
-  static findLastMessage() {
-    return this.createQueryBuilder('message').orderBy('message.sentAt', 'DESC').getOne();
+  static findLastMessage(chatId: number) {
+    return this.createQueryBuilder('message')
+      .where('message.chatId = :chatId', {chatId})
+      .orderBy('message.sentAt', 'DESC')
+      .getOne();
   }
 }

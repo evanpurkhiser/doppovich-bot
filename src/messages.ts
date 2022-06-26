@@ -5,14 +5,14 @@ import {Message} from 'src/entity/message';
 /**
  * Picks a quote from the message history and posts it
  */
-export async function sendNewQuote(ctx: AppCtx) {
+export async function sendNewQuote(ctx: AppCtx, chatId: number) {
   const {config, bot, messages} = ctx;
-  const {chatId, opening, intros} = config;
+  const {opening, intros} = config;
 
   const msg = randItem(messages);
 
   const firstName = msg.senderName.split(' ')[0];
-  const senderName = randItem(config.userAlias[firstName] ?? [firstName]);
+  const senderName = randItem(config.userAlias[msg.senderName] ?? [firstName]);
 
   const greet = randItem(opening);
   const intro = randItem(intros).replace('[user]', senderName);
@@ -24,7 +24,7 @@ export async function sendNewQuote(ctx: AppCtx) {
   await bot.sendMessage(chatId, `"${msg.text}"`);
 
   const message = Message.create({
-    messageType: 'facebook',
+    chatId,
     messageIdx: messages.indexOf(msg),
   });
   await message.save();

@@ -29,7 +29,7 @@ class ContextFollowup {
     }
 
     // What was the last thing taryn posted about?
-    const lastMessage = await Message.findLastMessage();
+    const lastMessage = await Message.findLastMessage(message.chat.id);
 
     if (lastMessage === null) {
       return;

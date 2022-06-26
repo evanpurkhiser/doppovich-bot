@@ -3,12 +3,13 @@ dbPath: ./db/database.sqlite
 
 # The JSON files that the bot will read old messages from
 messageFiles:
-  facebook: ./data/facebook_*.json
-  telegram: ./data/telegram.json
+  facebook: ./data/facebook*.json
+  telegram: ./data/telegram*.json
 
 # The telegram chat ID the bot should be active in
-#chatId: '-1001375311913'
-chatId: '-1001753130446'
+#chatId: -1001375311913 # Jaden
+#chatId: -1001638065636 # Pizza + Poker
+chatId: -1001753130446 # Development
 
 # You can just say hi to taryn and he'll say hi back
 hello:
@@ -48,7 +49,8 @@ opening:
 
 # Used for aliasing users
 userAlias:
-  Joseph: [Joe]
+  Joseph Pica: [Joe]
+  David Cramer: [Cramer]
 
 # The message following the greeting, just before posting the quote
 intros:
