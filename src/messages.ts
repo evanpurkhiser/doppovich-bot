@@ -1,3 +1,5 @@
+import {captureMessage} from '@sentry/node';
+
 import {randItem, sleepRange} from 'src/utils';
 import {AppCtx} from 'src/types';
 import {Message} from 'src/entity/message';
@@ -8,6 +10,11 @@ import {Message} from 'src/entity/message';
 export async function sendNewQuote(ctx: AppCtx, chatId: number) {
   const {config, bot, messages} = ctx;
   const {opening, intros} = config;
+
+  if (messages[chatId].length === 0) {
+    captureMessage(`chatId: ${chatId} does not have any message history`);
+    return;
+  }
 
   const msg = randItem(messages[chatId]);
 
