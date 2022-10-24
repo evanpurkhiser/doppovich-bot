@@ -1,5 +1,7 @@
-import {promises as fs} from 'fs';
 import glob from 'fast-glob';
+
+import {promises as fs} from 'fs';
+
 import {ChatConfig, Config, GenericMessage} from './types';
 
 type FacebookMessage = {

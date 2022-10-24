@@ -1,8 +1,8 @@
 import {captureMessage} from '@sentry/node';
 
-import {randItem, sleepRange} from 'src/utils';
-import {AppCtx} from 'src/types';
 import {Message} from 'src/entity/message';
+import {AppCtx} from 'src/types';
+import {randItem, sleepRange} from 'src/utils';
 
 /**
  * Picks a quote from the message history and posts it

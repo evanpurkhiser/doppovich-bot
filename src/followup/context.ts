@@ -71,8 +71,9 @@ class ContextFollowup {
     const contextMessage = messageContext
       .map(
         ({senderName, timestampMs, text}) =>
-          `*${senderName}* ${moment(timestampMs).format('h:mma')}\n` +
-          escapeMarkdown(text)
+          `*${senderName}* ${moment(timestampMs).format('h:mma')}\n${escapeMarkdown(
+            text
+          )}`
       )
       .join('\n\n');
 

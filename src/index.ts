@@ -1,15 +1,16 @@
-import {DataSource} from 'typeorm';
-import {promises as fs} from 'fs';
+import {captureException, init as initSentry} from '@sentry/node';
 import TelegramBot from 'node-telegram-bot-api';
+import {DataSource} from 'typeorm';
 import yaml from 'yaml';
-import {init as initSentry, captureException} from '@sentry/node';
 
-import {Config, AppCtx, GenericMessage} from 'src/types';
-import {sendNewQuote} from 'src/messages';
+import {promises as fs} from 'fs';
+
 import {Message} from 'src/entity/message';
-import WhenWasFollowup from 'src/followup/whenWas';
 import ContextFollowup from 'src/followup/context';
+import WhenWasFollowup from 'src/followup/whenWas';
 import {loadFacebookMessages, loadTelegramMessages} from 'src/loaders';
+import {sendNewQuote} from 'src/messages';
+import {AppCtx, Config, GenericMessage} from 'src/types';
 import {randItem, sleepRange} from 'src/utils';
 
 async function main() {
@@ -49,7 +50,7 @@ async function main() {
     synchronize: true,
   });
 
-  const [_, me] = await Promise.all([db.initialize(), bot.getMe()]);
+  const [, me] = await Promise.all([db.initialize(), bot.getMe()]);
 
   const messages: Record<TelegramBot.ChatId, GenericMessage[]> = {};
 
@@ -79,7 +80,7 @@ async function main() {
 
   console.log(`Bot started. Username is @${me.username}`);
 
-  bot.onText(new RegExp(`^@${me.username}$`), async msg => {
+  bot.onText(new RegExp(`^@${me.username}$`), msg => {
     sendNewQuote(ctx, msg.chat.id);
   });
 

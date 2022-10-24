@@ -20,14 +20,16 @@
     "yaml": "^2.1.1"
   },
   "devDependencies": {
-    "@evanpurkhiser/eslint-config": "^0.10.1",
-    "eslint": "^8.17.0"
+    "@evanpurkhiser/eslint-config": "^0.13.0",
+    "eslint": "^8.17.0",
+    "prettier": "^2.7.1"
   },
   "scripts": {
+    "lint": "eslint src/",
     "start": "ts-node -r tsconfig-paths/register ./src/index.ts"
   },
   "volta": {
-    "node": "16.14.0",
-    "yarn": "1.22.4"
+    "node": "16.18.0",
+    "yarn": "1.22.18"
   }
 }
