@@ -21,5 +21,6 @@ RUN yarn install
 
 COPY src/ /app/src
 COPY config.yml /app/
+COPY dockerStart.sh /app/
 
-CMD ["yarn", "start"]
+CMD ./dockerStart.sh
