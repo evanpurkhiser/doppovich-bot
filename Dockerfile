@@ -23,6 +23,4 @@ COPY src/ /app/src
 COPY config.yml /app/
 COPY dockerStart.sh /app/
 
-RUN chmod +x /app/dockerStart.sh
-
 CMD ["./dockerStart.sh"]
