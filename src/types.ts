@@ -1,7 +1,7 @@
 import TelegramBot from 'node-telegram-bot-api';
 import {DataSource} from 'typeorm';
 
-type FollowUpCommon = {
+interface FollowUpCommon {
   /**
    * How long until Taryn no longer will respond to message matches. In seconds
    */
@@ -18,7 +18,7 @@ type FollowUpCommon = {
    * Messages taryn will respond with when he gets the same response again
    */
   alreadyPostedResponse: string[];
-};
+}
 
 /*
  * The configuration for the 'when was that' follow up
@@ -47,7 +47,7 @@ type FollowUpContext = FollowUpCommon & {
 /**
  * Configuration object per chat
  */
-export type ChatConfig = {
+export interface ChatConfig {
   /**
    * The telegram chat ID for this configurationh
    */
@@ -63,9 +63,9 @@ export type ChatConfig = {
     facebook?: string | string[];
     telegram?: string | string[];
   };
-};
+}
 
-export type Config = {
+export interface Config {
   /**
    * The database file pathto store state in
    */
@@ -115,17 +115,17 @@ export type Config = {
     whenWas: FollowUpWhenWas;
     context: FollowUpContext;
   };
-};
+}
 
-export type GenericMessage = {
+export interface GenericMessage {
   senderName: string;
   timestampMs: number;
   text: string;
-};
+}
 
-export type AppCtx = {
+export interface AppCtx {
   config: Config;
   db: DataSource;
   bot: TelegramBot;
   messages: Record<TelegramBot.ChatId, GenericMessage[]>;
-};
+}

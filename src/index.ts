@@ -88,8 +88,8 @@ async function main() {
   bot.onText(new RegExp(`@${me.username}`), async msg => {
     console.log('Message in chat id', msg.chat.id);
 
-    const includesTriggerWord = config.hello.triggers.some(t =>
-      msg.text?.toLowerCase().match(new RegExp(`\\b${t}\\b`))
+    const includesTriggerWord = config.hello.triggers.some(
+      t => msg.text?.toLowerCase().match(new RegExp(`\\b${t}\\b`))
     );
 
     if (includesTriggerWord) {

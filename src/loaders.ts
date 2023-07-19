@@ -4,22 +4,22 @@ import {promises as fs} from 'fs';
 
 import {ChatConfig, Config, GenericMessage} from './types';
 
-type FacebookMessage = {
+interface FacebookMessage {
   sender_name: string;
   timestamp_ms: number;
   content?: string;
   type: 'Generic' | 'Share' | 'Call' | 'Subscribe' | 'Unsubscribe';
   is_unsent: boolean;
-};
+}
 
-type TelegramMessage = {
+interface TelegramMessage {
   type: 'message' | 'service';
   date_unixtime: string;
   from: string;
   text:
     | string
     | Array<string | {type: 'link' | 'mention' | 'mention_name'; text: string}>;
-};
+}
 
 /**
  * Loads facebook messages
