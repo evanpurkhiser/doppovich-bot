@@ -85,7 +85,7 @@ export async function loadTelegramMessages(config: Config, chat: ChatConfig) {
           typeof msg.text !== 'string' &&
           msg.text.length === 1 &&
           typeof msg.text[0] !== 'string'
-        )
+        ),
     )
     .filter(msg => (msg.text?.length ?? 0) > config.minMessageLength);
 

@@ -2,8 +2,12 @@
   "$schema": "https://json.schemastore.org/package.json",
   "name": "taryn-bot",
   "version": "1.0.0",
-  "main": "index.js",
   "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint src/",
+    "start": "ts-node -r tsconfig-paths/register ./src/index.ts"
+  },
   "dependencies": {
     "@sentry/node": "^7.16.0",
     "@sentry/tracing": "^7.16.0",
@@ -23,11 +27,7 @@
   "devDependencies": {
     "@evanpurkhiser/eslint-config": "^0.20.0",
     "eslint": "^8.45.0",
-    "prettier": "^3.0.0"
-  },
-  "scripts": {
-    "lint": "eslint src/",
-    "start": "ts-node -r tsconfig-paths/register ./src/index.ts"
+    "oxfmt": "^0.41.0"
   },
   "volta": {
     "node": "18.11.0",

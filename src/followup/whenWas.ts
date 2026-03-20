@@ -85,7 +85,7 @@ class WhenWasFollowup {
           const MIN_HOUR_OFFSET = 24 * 30;
           const hourDiff = messageDate.diff(new Date(), 'hours');
           const addHours = Math.floor(
-            MIN_HOUR_OFFSET + Math.random() * (hourDiff - MIN_HOUR_OFFSET + 1)
+            MIN_HOUR_OFFSET + Math.random() * (hourDiff - MIN_HOUR_OFFSET + 1),
           );
 
           return messageDate.add(addHours, 'hours').fromNow();

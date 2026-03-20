@@ -72,8 +72,8 @@ class ContextFollowup {
       .map(
         ({senderName, timestampMs, text}) =>
           `*${senderName}* ${moment(timestampMs).format('h:mma')}\n${escapeMarkdown(
-            text
-          )}`
+            text,
+          )}`,
       )
       .join('\n\n');
 

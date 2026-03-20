@@ -17,7 +17,7 @@ export function textMatches(text: string, matches: string[]) {
   return matches.some(match =>
     match.match(/^\/.*\/$/)
       ? new RegExp(match).test(text)
-      : text.toLowerCase().includes(match.toLowerCase())
+      : text.toLowerCase().includes(match.toLowerCase()),
   );
 }
 
