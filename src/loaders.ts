@@ -1,8 +1,8 @@
 import glob from 'fast-glob';
 
-import {promises as fs} from 'fs';
+import {promises as fs} from 'node:fs';
 
-import {ChatConfig, Config, GenericMessage} from './types';
+import type {ChatConfig, Config, GenericMessage} from './types';
 
 interface FacebookMessage {
   sender_name: string;
@@ -32,9 +32,9 @@ export async function loadFacebookMessages(config: Config, chat: ChatConfig) {
   const files = await glob(chat.messageFiles.facebook);
 
   const messageData = await Promise.all(files.map(n => fs.readFile(n, 'utf-8')));
-  const allMessages = messageData
-    .map(data => JSON.parse(data).messages)
-    .flat() as FacebookMessage[];
+  const allMessages = messageData.flatMap(
+    data => JSON.parse(data).messages,
+  ) as FacebookMessage[];
 
   console.log(`${chat.name}: Facebook Messages loaded:`, allMessages.length);
 
@@ -68,9 +68,9 @@ export async function loadTelegramMessages(config: Config, chat: ChatConfig) {
   const files = await glob(chat.messageFiles.telegram);
 
   const messageData = await Promise.all(files.map(n => fs.readFile(n, 'utf8')));
-  const allMessages = messageData
-    .map(data => JSON.parse(data).messages)
-    .flat() as TelegramMessage[];
+  const allMessages = messageData.flatMap(
+    data => JSON.parse(data).messages,
+  ) as TelegramMessage[];
 
   console.log(`${chat.name}: Telegram Messages loaded:`, allMessages.length);
 

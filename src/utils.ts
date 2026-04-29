@@ -15,7 +15,7 @@ export function randItem<V>(data: V[]) {
  */
 export function textMatches(text: string, matches: string[]) {
   return matches.some(match =>
-    match.match(/^\/.*\/$/)
+    /^\/.*\/$/.test(match)
       ? new RegExp(match).test(text)
       : text.toLowerCase().includes(match.toLowerCase()),
   );
@@ -34,5 +34,5 @@ export async function sleepRange(min: number, max: number) {
  */
 export function escapeMarkdown(text: string) {
   // Defined here https://core.telegram.org/bots/api#markdownv2-style
-  return text.replace(/[_*[\]()~`>#+-=|{}.!]/g, match => `\\${match}`);
+  return text.replaceAll(/[_*[\]()~`>#+-=|{}.!]/g, match => `\\${match}`);
 }

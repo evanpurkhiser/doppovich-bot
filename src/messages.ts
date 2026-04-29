@@ -1,7 +1,7 @@
 import {captureMessage} from '@sentry/node';
 
 import {Message} from 'src/entity/message';
-import {AppCtx} from 'src/types';
+import type {AppCtx} from 'src/types';
 import {randItem, sleepRange} from 'src/utils';
 
 /**

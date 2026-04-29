@@ -1,8 +1,8 @@
 import moment from 'moment';
-import TelegramBot from 'node-telegram-bot-api';
+import type TelegramBot from 'node-telegram-bot-api';
 
 import {Message} from 'src/entity/message';
-import {AppCtx} from 'src/types';
+import type {AppCtx} from 'src/types';
 import {randItem, sleepRange, textMatches} from 'src/utils';
 
 class WhenWasFollowup {

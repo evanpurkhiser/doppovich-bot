@@ -1,5 +1,5 @@
-import TelegramBot from 'node-telegram-bot-api';
-import {DataSource} from 'typeorm';
+import type TelegramBot from 'node-telegram-bot-api';
+import type {DataSource} from 'typeorm';
 
 interface FollowUpCommon {
   /**

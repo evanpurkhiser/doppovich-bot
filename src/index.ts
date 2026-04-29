@@ -3,14 +3,14 @@ import TelegramBot from 'node-telegram-bot-api';
 import {DataSource} from 'typeorm';
 import yaml from 'yaml';
 
-import {promises as fs} from 'fs';
+import {promises as fs} from 'node:fs';
 
 import {Message} from 'src/entity/message';
 import ContextFollowup from 'src/followup/context';
 import WhenWasFollowup from 'src/followup/whenWas';
 import {loadFacebookMessages, loadTelegramMessages} from 'src/loaders';
 import {sendNewQuote} from 'src/messages';
-import {AppCtx, Config, GenericMessage} from 'src/types';
+import type {AppCtx, Config, GenericMessage} from 'src/types';
 import {randItem, sleepRange} from 'src/utils';
 
 async function main() {
